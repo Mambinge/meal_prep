@@ -17,7 +17,7 @@ def set_background_image(image_url):
     st.markdown(background_image, unsafe_allow_html=True)
 
 # Set the background image
-image_url = "https://images.unsplash.com/photo-1542281286-9e0a16bb7366"
+image_url = "/"
 set_background_image(image_url)
 
 # Rest of your Streamlit app code
@@ -31,7 +31,7 @@ import os
 load_dotenv()
 
 # Get the API key from the environment variable
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 # Fine-tune the GPT-3 model on recipe generation
 def fine_tune_model():
