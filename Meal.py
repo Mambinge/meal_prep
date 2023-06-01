@@ -23,13 +23,6 @@ set_background_image(image_url)
 # Rest of your Streamlit app code
 
 
-
-from dotenv import load_dotenv
-import os
-
-# Load environment variables from .env file
-load_dotenv()
-
 # Get the API key from the environment variable
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
