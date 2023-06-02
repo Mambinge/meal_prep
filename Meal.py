@@ -1,6 +1,8 @@
 import streamlit as st
 import openai
 
+favicon = "favicon.ico"
+st.set_page_config(page_title="PrepPal", page_icon=favicon)
 
 def set_background_image(image_url):
     """
