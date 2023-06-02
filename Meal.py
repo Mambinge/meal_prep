@@ -1,29 +1,7 @@
 import streamlit as st
 import openai
 
-
-def set_background_image(image_url):
-    """
-    Function to set the background image of the app.
-    """
-    background_image = f"""
-        <style>
-            .stApp {{
-                background-image: url("{image_url}");
-                background-size: cover;
-            }}
-        </style>
-    """
-    st.markdown(background_image, unsafe_allow_html=True)
-
-# Set the background image
-image_url = "https://images.unsplash.com/photo-1542281286-9e0a16bb7366"
-set_background_image(image_url)
-
-# Rest of your Streamlit app code
-
-
-
+# Get the API key from the environment variable
 from dotenv import load_dotenv
 import os
 
@@ -33,11 +11,7 @@ load_dotenv()
 # Get the API key from the environment variable
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# Fine-tune the GPT-3 model on recipe generation
-def fine_tune_model():
-    # TODO: Implement fine-tuning code
-    pass
-
+# Function to generate recipes
 def generate_recipes(ingredients, cuisine, day, num_recipes=3, temperature=0.5, max_tokens=1024):
     recipes = []
     for _ in range(num_recipes):
@@ -54,28 +28,14 @@ def generate_recipes(ingredients, cuisine, day, num_recipes=3, temperature=0.5, 
 
     return recipes
 
-import streamlit as st
-
 def app():
-    # Set the background color
+    # Set the background color and font style
     st.markdown(
         """
         <style>
             body {
-                background-color: #f5f5f5;
-            }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-
-    # Set the container width
-    st.markdown(
-        """
-        <style>
-            .container {
-                max-width: 800px;
-                padding: 20px;
+                background: #53BE5B;
+                font-family: Arial, sans-serif;
             }
         </style>
         """,
@@ -87,27 +47,11 @@ def app():
         """
         <style>
             h1 {
-                color: #FF6600;
-                font-size: 36px;
+                color: #53BE5B;
+                font-size: 42px;
                 text-align: center;
-                margin-top: 50px;
-                margin-bottom: 50px;
-            }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-
-    # Set the input style
-    st.markdown(
-        """
-        <style>
-            .input-text {
-                border: 1px solid #FF6600;
-                border-radius: 5px;
-                padding: 10px;
+                margin-top: 10px;
                 margin-bottom: 20px;
-                width: 100%;
             }
         </style>
         """,
@@ -119,13 +63,18 @@ def app():
         """
         <style>
             .button {
-                background-color: #FF6600;
+                background-color: #53BE5B;
                 color: white;
                 padding: 10px 20px;
                 border-radius: 5px;
                 display: block;
                 margin: 20px auto;
                 text-align: center;
+                font-size: 18px;
+                cursor: pointer;
+            }
+            .button:hover {
+                background-color: #53BE5B;
             }
         </style>
         """,
@@ -149,26 +98,36 @@ def app():
         unsafe_allow_html=True
     )
 
-    # App content
-    st.title("PrepPal")
+# App content
+st.title("PrepPal 🍽️✨")
 
-    ingredients = st.text_input("Enter ingredients (separated by commas)", key="ingredients", value="")
-    cuisine = st.selectbox("Select cuisine",["Italian", "Mexican", "Chinese", "Indian", "Japanese", 
-                                             "Thai", "French", "Greek", "Spanish", "Lebanese",
-                                             "Korean", "Vietnamese", "Moroccan", "Turkish", 
-                                             "Brazilian", "African"], key="cuisine")
-    day = st.selectbox("Select time", ["Breakfast", "Lunch", "Dinner", "Snack"], key="day")
 
-    st.markdown("<h1>Here's a recipe for {}:</h1>".format(ingredients), unsafe_allow_html=True)
+ingredients = st.text_input("Enter ingredients (separated by commas)", key="ingredients", value="")
+cuisine = st.selectbox("Select cuisine",["Italian", "Mexican", "Chinese", "Indian", "Japanese", 
+                                         "Thai", "French", "Greek", "Spanish", "Lebanese",
+                                         "Korean", "Vietnamese", "Moroccan", "Turkish", 
+                                         "Brazilian", "African"], key="cuisine")
+day = st.selectbox("Select time", ["Breakfast", "Lunch", "Dinner", "Snack"], key="day")
 
-    if st.button("Generate Recipe", key="generate"):
-        # Generate three recipes with temperature=0.7 and max_tokens=1024
-        recipes = generate_recipes(ingredients, cuisine, day, num_recipes=3, temperature=0.7, max_tokens=1024)
+st.markdown("<h1>🌟 Here's a recipe for {}:</h1>".format(ingredients), unsafe_allow_html=True)
 
-        for i, recipe in enumerate(recipes):
-            recipe_name = f"<h3>Recipe {i+1}:</h3>"
-            st.markdown(recipe_name, unsafe_allow_html=True)
-            st.markdown(f"<div class='recipe'>{recipe}</div>", unsafe_allow_html=True)
+if st.button("Generate Recipe 🍳", key="generate"):
+    # Generate three recipes with temperature=0.7 and max_tokens=1024
+    recipes = generate_recipes(ingredients, cuisine, day, num_recipes=2, temperature=0.7, max_tokens=1024)
 
-if __name__ == "__main__":
-    app()
+    # Display recipes results on the right column
+    col1, col2 = st.columns(2)
+
+    with col1:
+        # Show the first recipe
+        if len(recipes) >= 1:
+            st.markdown(f"<div class='recipe'>{recipes[0]}</div>", unsafe_allow_html=True)
+
+    with col2:
+        # Show the second and third recipes
+        if len(recipes) >= 2:
+            st.markdown(f"<div class='recipe'>{recipes[1]}</div>", unsafe_allow_html=True)
+
+
+# Run the app
+app()
