@@ -76,3 +76,6 @@ This project is licensed under the [MIT License](LICENSE).
 ---
 
 We hope you enjoy using PrepPal to unleash your culinary creativity and discover amazing recipes! If you have any questions or feedback, please don't hesitate to reach out. Happy cooking!
+
+Copyright
+© Ruvimbo Mambinge 2023. All rights reserved.
